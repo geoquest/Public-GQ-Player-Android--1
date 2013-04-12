@@ -26,7 +26,6 @@ import com.google.android.maps.Projection;
 import com.qeevee.gq.rules.Rule;
 import com.qeevee.ui.BitmapUtil;
 
-
 /**
  * Hotspots are interaction points on a mapmission map. They have a image and a
  * referenced mission that is started when the player taps on the hotspot.
@@ -75,7 +74,8 @@ public class HotspotOld /* extends Overlay */{
 	HotspotOld h = allHotspots.get(_id);
 
 	Log.d(h.getClass().getName(),
-	      "initiating hotspot. id=" + _id);
+	      "initiating hotspot. id="
+		      + _id);
 
 	h.init(_parent,
 	       _hotspotNode);
@@ -85,7 +85,8 @@ public class HotspotOld /* extends Overlay */{
 
     private HotspotOld(String _id) {
 	Log.d(getClass().getName(),
-	      "constructing hotspot. id=" + _id);
+	      "constructing hotspot. id="
+		      + _id);
 	id = _id;
 	googleOverlay = new Overlay() {
 
@@ -318,15 +319,18 @@ public class HotspotOld /* extends Overlay */{
 	    Attribute longitudeA = (Attribute) _hotspotNode
 		    .selectSingleNode("@longitude");
 
-	    if ((latitudeA == null) || (longitudeA == null))
+	    if ((latitudeA == null)
+		    || (longitudeA == null))
 		throw new IllegalHotspotNodeException(
-			"Latitude or Longitude is not set.\n" + _hotspotNode);
+			"Latitude or Longitude is not set.\n"
+				+ _hotspotNode);
 	    latitude = Double.valueOf(latitudeA.getText()) * 1E6;
 	    longitude = Double.valueOf(longitudeA.getText()) * 1E6;
 
 	}
 	GeoPoint point = new GeoPoint((int) (latitude), (int) (longitude));
-	Variables.setValue(Variables.HOTSPOT_PREFIX + id
+	Variables.setValue(Variables.HOTSPOT_PREFIX
+				   + id
 				   + Variables.LOCATION_SUFFIX,
 			   point);
 
@@ -334,7 +338,7 @@ public class HotspotOld /* extends Overlay */{
 	String imgsrc = _hotspotNode.attributeValue("img");
 	if (imgsrc != null) {
 	    setBitmap(BitmapUtil.loadBitmap(imgsrc,
-					     false));
+					    false));
 	} else {
 	    setBitmap(((BitmapDrawable) GeoQuestApp.getInstance()
 		    .getResources()
