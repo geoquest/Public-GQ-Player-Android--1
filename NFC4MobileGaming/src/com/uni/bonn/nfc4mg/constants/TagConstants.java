@@ -15,5 +15,10 @@ public class TagConstants {
 	public static final int TAG_TYPE_BT = 0x03;
 	public static final int TAG_TYPE_WIFI = 0x04;
 	public static final int TAG_TYPE_GROUP = 0x05;
-
+	
+	
+	public static final int MAX_GROUP_CAPACITY = 4;
+	
+	public static final String NFC4MG_PREF = "nfc4mg";
+	public static final String GROUP_INFO = "group";
 }
