@@ -50,7 +50,7 @@ public class PreferenceSettings {
 	 */
 	public static String getDeviceMacId(Context context) {
 
-		String deviceId = Settings.System.getString(
+		String deviceId = Settings.Secure.getString(
 				context.getContentResolver(), Settings.System.ANDROID_ID);
 
 		return deviceId;

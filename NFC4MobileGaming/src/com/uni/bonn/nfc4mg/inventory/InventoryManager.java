@@ -25,7 +25,7 @@ public class InventoryManager {
 	 * Get the instance of inventory manager.
 	 * @return
 	 */
-	public InventoryManager getInventoryManager() {
+	public static InventoryManager getInventoryManager() {
 		
 		if (null == INSTANCE) {
 			INSTANCE = new InventoryManager();
@@ -110,5 +110,4 @@ public class InventoryManager {
 		return INVENTORY_REPO.get(key);
 		
 	}
-	
 }

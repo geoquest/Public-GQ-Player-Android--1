@@ -12,9 +12,10 @@ import com.uni.bonn.nfc4mg.constants.TagConstants;
 import com.uni.bonn.nfc4mg.exception.NfcTagException;
 import com.uni.bonn.nfc4mg.exception.TagModelException;
 import com.uni.bonn.nfc4mg.tagmodels.GroupTagModel;
-import com.uni.bonn.nfc4mg.utility.PreferenceSettings;
 
 public class GroupManager {
+
+	private static GroupManager INSTANCE = null;
 
 	/**
 	 * One Instance of Group Manager will be available for a game. Group Manager
@@ -33,6 +34,25 @@ public class GroupManager {
 	private static final String TAG = "GroupManager";
 
 	/**
+	 * Singleton Class
+	 */
+	private GroupManager() {
+	}
+
+	/**
+	 * Get the instance of inventory manager.
+	 * 
+	 * @return
+	 */
+	public static GroupManager getGroupManager() {
+
+		if (null == INSTANCE) {
+			INSTANCE = new GroupManager();
+		}
+		return INSTANCE;
+	}
+
+	/**
 	 * API to join group. NOTE : Player can be in one group at a time, in case
 	 * of joining new group without leaving old group, information will be
 	 * overridden.
@@ -47,15 +67,14 @@ public class GroupManager {
 	public boolean joinGroup(Context ctx, Tag tag) throws IOException,
 			FormatException, TagModelException, NfcTagException {
 
-		// get device id : unique id
-		String id = PreferenceSettings.getDeviceMacId(ctx);
-
 		// get the groupTagModel
 		GroupTagModel model = GroupTag.readTagData(tag);
 
 		SharedPreferences settings = ctx.getSharedPreferences(
 				TagConstants.NFC4MG_PREF, 0);
 		String group_Id = settings.getString(TagConstants.GROUP_INFO, null);
+
+		Log.d(TAG, "group_Id = " + group_Id);
 
 		// check for already a group member or not
 		if (model.getId().equals(group_Id)) {
@@ -71,7 +90,7 @@ public class GroupManager {
 			// On successful writing into NFC tag, update data into user local
 			// shared preference
 			SharedPreferences.Editor editor = settings.edit();
-			editor.putString(TagConstants.GROUP_INFO, id);
+			editor.putString(TagConstants.GROUP_INFO, model.getId());
 			editor.commit();
 		}
 
@@ -92,9 +111,6 @@ public class GroupManager {
 	public boolean leaveGroup(Context ctx, Tag tag) throws TagModelException,
 			IOException, FormatException, NfcTagException {
 
-		// get device id : unique id
-		String id = PreferenceSettings.getDeviceMacId(ctx);
-
 		// get the groupTagModel
 		GroupTagModel model = GroupTag.readTagData(tag);
 
@@ -113,7 +129,7 @@ public class GroupManager {
 				// On successful writing into NFC tag, update data into user
 				// local shared preference
 				SharedPreferences.Editor editor = settings.edit();
-				editor.putString(TagConstants.GROUP_INFO, id);
+				editor.putString(TagConstants.GROUP_INFO, null);
 				editor.commit();
 			}
 

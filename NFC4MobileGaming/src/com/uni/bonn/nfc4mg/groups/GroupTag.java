@@ -47,6 +47,12 @@ public class GroupTag {
 			throw new TagModelException("Fatal Exception : Group Capacity is 4");
 		}
 		
+		//check for group capacity
+		int occupied = model.getOccupied();
+		if(occupied > TagConstants.MAX_GROUP_CAPACITY){
+			throw new TagModelException("This group cannot occupy more members");
+		}
+				
 		//finally create group tag
 		NdefRecord records[] = new NdefRecord[4];
 		records[0] = TextRecord.createRecord(model.getId());

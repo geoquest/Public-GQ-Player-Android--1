@@ -26,10 +26,9 @@ public class GroupTagModel {
 	}
 	
 	public GroupTagModel(String id, int capacity, int occupied, String data) {
-		super();
 		this.id = id;
-		this.occupied = occupied;
 		this.capacity = capacity;
+		this.occupied = occupied;
 		this.data = data;
 	}
 
