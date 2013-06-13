@@ -13,6 +13,10 @@ public class GroupTagModel {
 	// Represents the id of a group. Every id value is prefixed by 'grp_'
 	private String id;
 
+	// represents the group tag permission
+	private int permission;
+
+	// Represents current member count in the group
 	private int occupied;
 
 	// Represents capacity of a group. MAX CAPACITY = 4
@@ -21,12 +25,14 @@ public class GroupTagModel {
 	// Data shared among group users
 	private String data;
 
-	public GroupTagModel(){
-		
+	public GroupTagModel() {
+
 	}
-	
-	public GroupTagModel(String id, int capacity, int occupied, String data) {
+
+	public GroupTagModel(String id, int permission, int capacity, int occupied,
+			String data) {
 		this.id = id;
+		this.permission = permission;
 		this.capacity = capacity;
 		this.occupied = occupied;
 		this.data = data;
@@ -34,6 +40,14 @@ public class GroupTagModel {
 
 	public String getId() {
 		return id;
+	}
+
+	public int getPermission() {
+		return permission;
+	}
+
+	public void setPermission(int permission) {
+		this.permission = permission;
 	}
 
 	public void setId(String id) {

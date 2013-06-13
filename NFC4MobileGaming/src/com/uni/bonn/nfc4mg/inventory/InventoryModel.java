@@ -10,22 +10,23 @@ package com.uni.bonn.nfc4mg.inventory;
  */
 public class InventoryModel {
 
+	//id
+	
+	private String id;
+	
 	// name of item
 	private String name;
 
-	// This field indicate auto deletion of resource after use.
-	private boolean autoRemove;
-
-	public InventoryModel(String name, boolean autoRemove) {
+	public InventoryModel(String id, String name) {
+		this.id = id;
 		this.name = name;
-		this.autoRemove = autoRemove;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public boolean isAutoRemove() {
-		return autoRemove;
+	public String getId() {
+		return id;
 	}
 }

@@ -16,6 +16,7 @@ import com.uni.bonn.nfc4mg.tagmodels.GroupTagModel;
 public class GroupManager {
 
 	private static GroupManager INSTANCE = null;
+	private OnGroupErrorListener mGroupErrorListener = null;
 
 	/**
 	 * One Instance of Group Manager will be available for a game. Group Manager
@@ -53,6 +54,15 @@ public class GroupManager {
 	}
 
 	/**
+	 * Function to set group error listener
+	 * 
+	 * @param listener
+	 */
+	public void setGroupErrorListener(OnGroupErrorListener listener) {
+		this.mGroupErrorListener = listener;
+	}
+
+	/**
 	 * API to join group. NOTE : Player can be in one group at a time, in case
 	 * of joining new group without leaving old group, information will be
 	 * overridden.
@@ -79,12 +89,33 @@ public class GroupManager {
 		// check for already a group member or not
 		if (model.getId().equals(group_Id)) {
 			Log.d(TAG, "Already member of group");
+			if (mGroupErrorListener != null) {
+
+				mGroupErrorListener.onGroupError(
+						GroupErrors.ErrorCodes.ERROR_ALREADY_IN_GROUP,
+						GroupErrors.ErrorMsg.ERROR_ALREADY_IN_GROUP);
+			}
 			return false;
 		}
 
-		// In case not present in the group, add into group and increment the
-		// count and write back data to tag
-		model.setOccupied(model.getOccupied() + 1);
+		// check for group capacity
+		int occupied = model.getOccupied();
+		if (TagConstants.MAX_GROUP_CAPACITY == occupied) {
+
+			if (mGroupErrorListener != null) {
+
+				mGroupErrorListener.onGroupError(
+						GroupErrors.ErrorCodes.ERROR_GROUP_FULL,
+						GroupErrors.ErrorMsg.ERROR_GROUP_FULL);
+			}
+			return false;
+		} else {
+
+			// In case not present in the group, add into group and increment
+			// the
+			// count and write back data to tag
+			model.setOccupied(model.getOccupied() + 1);
+		}
 
 		if (GroupTag.write2Tag(model, tag)) {
 			// On successful writing into NFC tag, update data into user local
@@ -132,8 +163,16 @@ public class GroupManager {
 				editor.putString(TagConstants.GROUP_INFO, null);
 				editor.commit();
 			}
-
 			return true;
+		}
+
+		// call error callback when player try to leave group. he/she does not
+		// belongs to
+		if (mGroupErrorListener != null) {
+
+			mGroupErrorListener.onGroupError(
+					GroupErrors.ErrorCodes.ERROR_NOT_IN_GROUP,
+					GroupErrors.ErrorMsg.ERROR_NOT_IN_GROUP);
 		}
 		return false;
 	}
@@ -152,22 +191,46 @@ public class GroupManager {
 	public String readGroupData(Context ctx, Tag tag) throws IOException,
 			FormatException, TagModelException {
 
-		// get the groupTagModel
-		GroupTagModel model = GroupTag.readTagData(tag);
-
 		SharedPreferences settings = ctx.getSharedPreferences(
 				TagConstants.NFC4MG_PREF, 0);
 		String group_Id = settings.getString(TagConstants.GROUP_INFO, null);
 
-		if (model.getId().equals(group_Id)) {
+		// get the groupTagModel
+		GroupTagModel model = GroupTag.readTagData(tag);
 
-			Log.d(TAG, "Already member of group");
+		int permission = model.getPermission();
+
+		switch (permission) {
+		case GroupPermission.ALL_READ_WRITE:
+		case GroupPermission.GROUP_WRITE_ALL_READ:
 			return model.getData();
-		} else {
 
-			throw new TagModelException(
-					"Only Group Member can read data from tag");
+		case GroupPermission.GROUP_READ_ALL_WRITE:
+		case GroupPermission.GROUP_READ_WRITE:
+
+			if (model.getId().equals(group_Id)) {
+				Log.d(TAG, "Already member of group");
+				return model.getData();
+
+			} else {
+				if (mGroupErrorListener != null) {
+
+					mGroupErrorListener.onGroupError(
+							GroupErrors.ErrorCodes.ERROR_GROUP_READ_ONLY,
+							GroupErrors.ErrorMsg.ERROR_GROUP_READ_ONLY);
+				}
+				return null;
+			}
+
+		default: // we assume that permission is not set correctly
+			if (mGroupErrorListener != null) {
+				mGroupErrorListener.onGroupError(
+						GroupErrors.ErrorCodes.ERROR_INVALID_GROUP_PERMISSION,
+						GroupErrors.ErrorMsg.ERROR_INVALID_GROUP_PERMISSION);
+			}
+			return null;
 		}
+
 	}
 
 	/**
@@ -185,17 +248,50 @@ public class GroupManager {
 			throws IOException, FormatException, TagModelException,
 			NfcTagException {
 
+		SharedPreferences settings = ctx.getSharedPreferences(
+				TagConstants.NFC4MG_PREF, 0);
+		String group_Id = settings.getString(TagConstants.GROUP_INFO, null);
+
 		// get the groupTagModel
 		GroupTagModel model = GroupTag.readTagData(tag);
 
-		// set new data into model
-		model.setData(data);
+		int permission = model.getPermission();
 
-		if (GroupTag.write2Tag(model, tag)) {
-			return true;
+		switch (permission) {
+		
+		case GroupPermission.ALL_READ_WRITE:
+		case GroupPermission.GROUP_READ_ALL_WRITE:
+
+			// set new data into model
+			model.setData(data);
+			return GroupTag.write2Tag(model, tag);
+
+		case GroupPermission.GROUP_READ_WRITE:
+		case GroupPermission.GROUP_WRITE_ALL_READ:
+
+			if (model.getId().equals(group_Id)) {
+
+				model.setData(data);
+				return GroupTag.write2Tag(model, tag);
+
+			} else {
+
+				if (mGroupErrorListener != null) {
+
+					mGroupErrorListener.onGroupError(
+							GroupErrors.ErrorCodes.ERROR_GROUP_WRITE_ONLY,
+							GroupErrors.ErrorMsg.ERROR_GROUP_WRITE_ONLY);
+				}
+				return false;
+			}
+		default:
+			if (mGroupErrorListener != null) {
+				mGroupErrorListener.onGroupError(
+						GroupErrors.ErrorCodes.ERROR_INVALID_GROUP_PERMISSION,
+						GroupErrors.ErrorMsg.ERROR_INVALID_GROUP_PERMISSION);
+			}
+			return false;
 		}
-
-		return false;
 	}
 
 	/**
@@ -215,6 +311,47 @@ public class GroupManager {
 			throws TagModelException, IOException, FormatException,
 			NfcTagException {
 
+		// check for group permission
+		int permission = model.getPermission();
+		if (permission != GroupPermission.ALL_READ_WRITE
+				|| permission != GroupPermission.GROUP_READ_ALL_WRITE
+				|| permission != GroupPermission.GROUP_READ_WRITE
+				|| permission != GroupPermission.GROUP_WRITE_ALL_READ) {
+
+			if (mGroupErrorListener != null) {
+				mGroupErrorListener.onGroupError(
+						GroupErrors.ErrorCodes.ERROR_INVALID_GROUP_PERMISSION,
+						GroupErrors.ErrorMsg.ERROR_INVALID_GROUP_PERMISSION);
+				return false;
+			}
+		}
+
+		// check for group capacity
+		int capacity = model.getCapacity();
+		if (capacity <= 0 || capacity > TagConstants.MAX_GROUP_CAPACITY) {
+			if (mGroupErrorListener != null) {
+				mGroupErrorListener.onGroupError(
+						GroupErrors.ErrorCodes.ERROR_CAPACITY,
+						GroupErrors.ErrorMsg.ERROR_CAPACITY);
+				return false;
+			}
+		}
 		return GroupTag.write2Tag(model, tag);
 	}
+	
+	
+	/**
+	 * Interface to deal with group error, developers can override this interface to
+	 * get the callback while iteracting with group tags
+	 * 
+	 * @author shubham
+	 * 
+	 */
+	public interface OnGroupErrorListener {
+
+		public void onGroupError(int code, String msg);
+
+	}
+
+	
 }

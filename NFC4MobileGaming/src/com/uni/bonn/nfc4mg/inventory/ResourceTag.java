@@ -1,4 +1,4 @@
-package com.uni.bonn.nfc4mg.groups;
+package com.uni.bonn.nfc4mg.inventory;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import com.uni.bonn.nfc4mg.TextRecord;
 import com.uni.bonn.nfc4mg.constants.TagConstants;
 import com.uni.bonn.nfc4mg.exception.NfcTagException;
 import com.uni.bonn.nfc4mg.exception.TagModelException;
-import com.uni.bonn.nfc4mg.tagmodels.GroupTagModel;
+import com.uni.bonn.nfc4mg.tagmodels.ResourceTagModel;
 import com.uni.bonn.nfc4mg.utility.NfcReadWrite;
 
 /**
@@ -21,15 +21,15 @@ import com.uni.bonn.nfc4mg.utility.NfcReadWrite;
  * @author shubham
  * 
  */
-public final class GroupTag {
+public final class ResourceTag {
 
-	protected static boolean write2Tag(GroupTagModel model, Tag tag)
+	protected static boolean write2Tag(ResourceTagModel model, Tag tag)
 			throws TagModelException, IOException, FormatException,
 			NfcTagException {
 
 		// check id uniqueness
 		if (null == model)
-			throw new TagModelException("GroupTagModel is not initialized");
+			throw new TagModelException("ResourceTagModel is not initialized");
 
 		String id = model.getId();
 
@@ -38,17 +38,15 @@ public final class GroupTag {
 			throw new TagModelException("Tag Id is not defined.");
 
 		// id prefix check
-		if (!id.startsWith(TagConstants.TAG_TYPE_GROUP_PREFIX))
-			model.setId(TagConstants.TAG_TYPE_GROUP_PREFIX + model.getId());
+		if (!id.startsWith(TagConstants.TAG_TYPE_RESOURCE_PREFIX))
+			model.setId(TagConstants.TAG_TYPE_RESOURCE_PREFIX + model.getId());
 
 				
 		//finally create group tag
-		NdefRecord records[] = new NdefRecord[5];
+		NdefRecord records[] = new NdefRecord[3];
 		records[0] = TextRecord.createRecord(model.getId());
-		records[1] = TextRecord.createRecord(""+model.getPermission());
-		records[2] = TextRecord.createRecord(""+model.getCapacity());//explicitly converting integer to string to store into tags
-		records[3] = TextRecord.createRecord(""+model.getOccupied());//explicitly converting integer to string to store into tags
-		records[4] = TextRecord.createRecord(model.getData());
+		records[1] = TextRecord.createRecord(model.getName());
+		records[2] = TextRecord.createRecord(""+model.getCount());//explicitly converting integer to string to store into tags
 		
 		NdefMessage group_msg = new NdefMessage(records);
 		NfcReadWrite.writeToNfc(group_msg, tag);
@@ -56,19 +54,17 @@ public final class GroupTag {
 	}
 
 	
-	protected static GroupTagModel readTagData(Tag tag) throws IOException,
+	protected static ResourceTagModel readTagData(Tag tag) throws IOException,
 			FormatException {
 
-		GroupTagModel model = new GroupTagModel();
+		ResourceTagModel model = new ResourceTagModel();
 		NdefMessage msg = NfcReadWrite.readNfcData(tag);
 		NdefRecord records[] = msg.getRecords();
 
-		if (null != records && 5 == records.length) {
+		if (null != records && 3 == records.length) {
 			model.setId(TextRecord.parseNdefRecord(records[0]).getData());
-			model.setPermission(Integer.parseInt(TextRecord.parseNdefRecord(records[1]).getData()));
-			model.setCapacity(Integer.parseInt(TextRecord.parseNdefRecord(records[2]).getData()));
-			model.setOccupied(Integer.parseInt(TextRecord.parseNdefRecord(records[3]).getData()));
-			model.setData(TextRecord.parseNdefRecord(records[4]).getData());
+			model.setName(TextRecord.parseNdefRecord(records[1]).getData());
+			model.setCount(Integer.parseInt(TextRecord.parseNdefRecord(records[2]).getData()));
 			return model;
 		}
 		return null;

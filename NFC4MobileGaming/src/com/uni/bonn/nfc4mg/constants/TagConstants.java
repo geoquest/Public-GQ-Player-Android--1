@@ -8,6 +8,7 @@ public class TagConstants {
 	public static final String TAG_TYPE_BT_PREFIX = "bt_";
 	public static final String TAG_TYPE_WIFI_PREFIX = "wifi_";
 	public static final String TAG_TYPE_GROUP_PREFIX = "group_";
+	public static final String TAG_TYPE_RESOURCE_PREFIX = "res_";
 	
 	//Predefined values of different tag types
 	public static final int TAG_TYPE_INFO = 0x01;
@@ -17,8 +18,11 @@ public class TagConstants {
 	public static final int TAG_TYPE_GROUP = 0x05;
 	
 	
-	public static final int MAX_GROUP_CAPACITY = 4;
+	//Max Group capacity
+	public static final int MAX_GROUP_CAPACITY = 2;
 	
+	//Application shared preference file name
 	public static final String NFC4MG_PREF = "nfc4mg";
+	//group key, present in the preference file. This will always hold single value
 	public static final String GROUP_INFO = "group";
 }
