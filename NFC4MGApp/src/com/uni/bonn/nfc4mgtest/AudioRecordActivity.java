@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class AudioRecordActivity extends Activity {
+/*public class AudioRecordActivity extends Activity {
 
 	private static final String AUDIO_RECORDER_FILE_EXT_3GP = ".3gp";
 	private static final String AUDIO_RECORDER_FILE_EXT_MP4 = ".mp4";
@@ -154,3 +154,4 @@ public class AudioRecordActivity extends Activity {
 		}
 	};
 }
+*/

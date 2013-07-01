@@ -9,49 +9,47 @@
         android:id="@+id/id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="tag id" />
+        android:hint="@string/hint_tag_id" />
 
     <EditText
         android:id="@+id/latitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="50.733141" />
+        android:hint="@string/hint_latitude" />
 
     <EditText
         android:id="@+id/longitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="7.103648‎"
-        android:layout_marginTop="20dp" >
+        android:layout_marginTop="20dp"
+        android:hint="@string/hint_longitude" >
     </EditText>
 
     <LinearLayout
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:gravity="center"
-        android:orientation="horizontal" >
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/init"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/initialize" />
 
         <Button
             android:id="@+id/read"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Read" />
+            android:text="@string/read" />
 
         <Button
             android:id="@+id/write"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Write" />
+            android:text="@string/write" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/nfcStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </LinearLayout>

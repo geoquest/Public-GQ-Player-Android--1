@@ -20,11 +20,11 @@ import android.widget.TextView;
 
 import com.uni.bonn.nfc4mg.NFCEventManager;
 
-public class BluetoothTagActivity extends Activity implements OnClickListener {
+/*public class BluetoothTagActivity extends Activity implements OnClickListener {
 
 	private static final String TAG = "GPSTagActivity";
 
-	private EditText id, macId, passKey;
+	private EditText id;
 	private Button read, write;
 	private TextView nfcStatus;
 
@@ -40,11 +40,8 @@ public class BluetoothTagActivity extends Activity implements OnClickListener {
 		this.ctx = this;
 
 		id = (EditText) findViewById(R.id.id);
-		macId = (EditText) findViewById(R.id.macId);
-		passKey = (EditText) findViewById(R.id.passKey);
 		read = (Button) findViewById(R.id.read);
 		write = (Button) findViewById(R.id.write);
-		nfcStatus = (TextView) findViewById(R.id.nfcStatus);
 
 		read.setOnClickListener(this);
 		write.setOnClickListener(this);
@@ -88,14 +85,14 @@ public class BluetoothTagActivity extends Activity implements OnClickListener {
 				if (proxy instanceof BluetoothA2dp) {
 					Log.d(TAG, "Instance of BluetoothA2dp class");
 					headset = ((BluetoothA2dp) proxy);
-					
+
 					List<BluetoothDevice> connectedDevices = proxy
 							.getConnectedDevices();
-					
+
 					for (BluetoothDevice device : connectedDevices) {
 						bluetoothDevice = device;
-						Log.d(TAG, "Address = "  +device.getAddress());
-						Log.d(TAG, "Name = "  +device.getName());
+						Log.d(TAG, "Address = " + device.getAddress());
+						Log.d(TAG, "Name = " + device.getName());
 					}
 				} else {
 					Log.d(TAG, "Not an Instance of BluetoothA2dp class");
@@ -105,3 +102,4 @@ public class BluetoothTagActivity extends Activity implements OnClickListener {
 		}
 	}
 }
+*/

@@ -9,13 +9,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class TagSelectionActivity extends Activity implements OnClickListener {
+/*public class TagSelectionActivity extends Activity implements OnClickListener {
 
 	private AlertDialog alertList = null;
 	private Button selection, mAudioRecord;
 
 	private final static String TAG_CHOICES[] = { "Info Tag", "GPS Tag",
-			"Bluetooth", "Wi-Fi Tag", "Auto Tag Detection"};
+			"Bluetooth", "Wi-Fi Tag", "Auto Tag Detection", "Group Tag", "Beam", "Slider"};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +59,22 @@ public class TagSelectionActivity extends Activity implements OnClickListener {
 									AutoTagDetectionActivity.class);
 							startActivity(intent);
 							break;
+						case 5:
+							intent = new Intent(TagSelectionActivity.this,
+									GroupTagActivity.class);
+							startActivity(intent);
+							break;
+						case 6:
+							intent = new Intent(TagSelectionActivity.this,
+									BeamActivity.class);
+							startActivity(intent);
+							break;
+						case 7:
+							intent = new Intent(TagSelectionActivity.this,
+									SliderActivityExample.class);
+							startActivity(intent);
+							break;	
+							
 						default:
 							break;
 						}
@@ -91,3 +107,4 @@ public class TagSelectionActivity extends Activity implements OnClickListener {
 	}
 
 }
+*/
