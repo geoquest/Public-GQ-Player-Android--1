@@ -1,5 +1,7 @@
 package com.uni.bonn.nfc4mg.tagmodels;
 
+import java.io.Serializable;
+
 /**
  * This class represents the model of Group. NFC Tag which is storing this
  * structure is called GroupTag.
@@ -10,7 +12,7 @@ package com.uni.bonn.nfc4mg.tagmodels;
  * 
  */
 
-public class ResourceTagModel {
+public class ResourceTagModel{
 
 	// Represents resource id. Every id value is prefixed by 'res_'
 	private String id;

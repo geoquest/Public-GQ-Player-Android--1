@@ -18,12 +18,19 @@ public class WiFiTagModel {
 	// MAX_ID length = 10 else framework will through error
 	private String id;
 
-	// Holds the current network SSID : This holds the network name to connect
-	// with
-	private String ssid;
+	// Action mode for WIFI NFC interaction, currently framework is
+	// supporting two action modes
+	private int actionMode;
 
-	// required password to connect with network.
-	private String password;
+	public WiFiTagModel() {
+
+	}
+
+	public WiFiTagModel(String id, int actionMode) {
+		super();
+		this.id = id;
+		this.actionMode = actionMode;
+	}
 
 	public String getId() {
 		return id;
@@ -33,20 +40,11 @@ public class WiFiTagModel {
 		this.id = id;
 	}
 
-	public String getSsid() {
-		return ssid;
+	public int getActionMode() {
+		return actionMode;
 	}
 
-	public void setSsid(String ssid) {
-		this.ssid = ssid;
+	public void setActionMode(int actionMode) {
+		this.actionMode = actionMode;
 	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 }

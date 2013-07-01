@@ -1,4 +1,4 @@
-package com.uni.bonn.nfc4mg.groups;
+package com.uni.bonn.nfc4mg.gpstag;
 
 import java.io.IOException;
 
@@ -11,33 +11,58 @@ import com.uni.bonn.nfc4mg.TextRecord;
 import com.uni.bonn.nfc4mg.constants.CommonTagErrors;
 import com.uni.bonn.nfc4mg.constants.TagConstants;
 import com.uni.bonn.nfc4mg.exception.NfcTagException;
-import com.uni.bonn.nfc4mg.tagmodels.GroupTagModel;
+import com.uni.bonn.nfc4mg.tagmodels.GPSTagModel;
 import com.uni.bonn.nfc4mg.utility.NfcReadWrite;
 
 /**
- * Class to deal with Group Tag type. User has to create object of this class in
- * order to deal with any operation related to group tags.
+ * Class to deal with GPS Tag type. User has to create object of this class in
+ * order to deal with any operation related to info tags.
  * 
  * @author shubham
  * 
  */
-public final class GroupTag {
+public class GpsTag {
 
-	// Number of NdefRecrds to support Group Tag information
-	private static final int NO_OF_RECORDS = 5;
+	// holds the single instance of GPS Tag class
+	private static GpsTag INSTANCE = null;
+
+	// Number of NdefRecrds to support GPS Tag information
+	private static final int NO_OF_RECORDS = 4;
 
 	/**
-	 * Internal framework API to write group data into NFC tag.
+	 * Private Constructor to make this class Singelton
+	 */
+	private GpsTag() {
+
+	}
+
+	/**
+	 * Get the instance of GPS tag.
+	 * 
+	 * @return
+	 */
+	public static GpsTag getInstance() {
+
+		if (null == INSTANCE) {
+			INSTANCE = new GpsTag();
+		}
+		return INSTANCE;
+	}
+
+	/**
+	 * API to write gps data to nfc tag. Caller of the api must pass the
 	 * 
 	 * @param model
+	 *            : proper tag model
 	 * @param tag
+	 *            : tag reference to write data to
 	 * @return
 	 * @throws IOException
 	 * @throws FormatException
 	 * @throws NfcTagException
 	 */
-	protected static boolean write2Tag(GroupTagModel model, Tag tag)
-			throws IOException, FormatException, NfcTagException {
+	public boolean write2Tag(GPSTagModel model, Tag tag) throws IOException,
+			FormatException, NfcTagException {
 
 		// check id uniqueness
 		if (null == model)
@@ -51,42 +76,36 @@ public final class GroupTag {
 			throw new NfcTagException(CommonTagErrors.ErrorMsg.TAG_ID_UNDEFINED);
 
 		// id prefix check
-		if (!id.startsWith(TagConstants.TAG_TYPE_GROUP_PREFIX))
-			model.setId(TagConstants.TAG_TYPE_GROUP_PREFIX + model.getId());
+		if (!id.startsWith(TagConstants.TAG_TYPE_GPS_PREFIX))
+			model.setId(TagConstants.TAG_TYPE_GPS_PREFIX + model.getId());
 
-		// finally create group tag
 		NdefRecord records[] = new NdefRecord[NO_OF_RECORDS];
 
 		short index = 0;
 		records[index] = TextRecord.createRecord(model.getId());
-		records[++index] = TextRecord.createRecord("" + model.getPermission());
-
-		// explicitly converting integer to string to store into tags
-		records[++index] = TextRecord.createRecord("" + model.getCapacity());
-
-		// explicitly converting integer to string to store into tags
-		records[++index] = TextRecord.createRecord("" + model.getOccupied());
+		records[++index] = TextRecord.createRecord(model.getLatitude());
+		records[++index] = TextRecord.createRecord(model.getLongitude());
 		records[++index] = TextRecord.createRecord(model.getData());
 
-		NdefMessage group_msg = new NdefMessage(records);
-		NfcReadWrite.writeToNfc(group_msg, tag);
+		NdefMessage info_msg = new NdefMessage(records);
+		NfcReadWrite.writeToNfc(info_msg, tag);
 		return true;
 	}
 
 	/**
-	 * API to read group data from NFC tag. GroupManager is responsible for
-	 * proper permission checking. This Api will simple read the data
+	 * API to read gps tag data.
 	 * 
 	 * @param tag
+	 *            : return GPSTagModel
 	 * @return
 	 * @throws IOException
 	 * @throws FormatException
 	 * @throws NfcTagException
 	 */
-	protected static GroupTagModel readTagData(Tag tag) throws IOException,
+	public GPSTagModel readTagData(Tag tag) throws IOException,
 			FormatException, NfcTagException {
 
-		GroupTagModel model = new GroupTagModel();
+		GPSTagModel model = new GPSTagModel();
 		NdefMessage msg = NfcReadWrite.readNfcData(tag);
 
 		if (null == msg) {
@@ -97,21 +116,19 @@ public final class GroupTag {
 		NdefRecord records[] = msg.getRecords();
 
 		if (null != records && NO_OF_RECORDS == records.length) {
-
 			short index = 0;
 
 			String id = TextRecord.parseNdefRecord(records[index]).getData();
-			if (!id.startsWith(TagConstants.TAG_TYPE_GROUP_PREFIX)) {
+			if (!id.startsWith(TagConstants.TAG_TYPE_GPS_PREFIX)) {
 				throw new NfcTagException(
 						CommonTagErrors.ErrorMsg.TAG_INVALID_API);
 			}
 			model.setId(id);
-			model.setPermission(Integer.parseInt(TextRecord.parseNdefRecord(
-					records[++index]).getData()));
-			model.setCapacity(Integer.parseInt(TextRecord.parseNdefRecord(
-					records[++index]).getData()));
-			model.setOccupied(Integer.parseInt(TextRecord.parseNdefRecord(
-					records[++index]).getData()));
+
+			model.setLatitude(TextRecord.parseNdefRecord(records[++index])
+					.getData());
+			model.setLongitude(TextRecord.parseNdefRecord(records[++index])
+					.getData());
 			model.setData(TextRecord.parseNdefRecord(records[++index])
 					.getData());
 			return model;

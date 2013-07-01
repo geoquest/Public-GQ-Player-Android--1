@@ -10,7 +10,6 @@ import android.util.Log;
 
 import com.uni.bonn.nfc4mg.constants.TagConstants;
 import com.uni.bonn.nfc4mg.exception.NfcTagException;
-import com.uni.bonn.nfc4mg.exception.TagModelException;
 import com.uni.bonn.nfc4mg.tagmodels.GroupTagModel;
 
 public class GroupManager {
@@ -75,7 +74,7 @@ public class GroupManager {
 	 * @throws TagModelException
 	 */
 	public boolean joinGroup(Context ctx, Tag tag) throws IOException,
-			FormatException, TagModelException, NfcTagException {
+			FormatException, NfcTagException {
 
 		// get the groupTagModel
 		GroupTagModel model = GroupTag.readTagData(tag);
@@ -139,8 +138,8 @@ public class GroupManager {
 	 * @throws FormatException
 	 * @throws NfcTagException
 	 */
-	public boolean leaveGroup(Context ctx, Tag tag) throws TagModelException,
-			IOException, FormatException, NfcTagException {
+	public boolean leaveGroup(Context ctx, Tag tag) throws IOException,
+			FormatException, NfcTagException {
 
 		// get the groupTagModel
 		GroupTagModel model = GroupTag.readTagData(tag);
@@ -187,9 +186,10 @@ public class GroupManager {
 	 * @throws IOException
 	 * @throws FormatException
 	 * @throws TagModelException
+	 * @throws NfcTagException
 	 */
-	public String readGroupData(Context ctx, Tag tag) throws IOException,
-			FormatException, TagModelException {
+	public GroupTagModel readGroupData(Context ctx, Tag tag)
+			throws IOException, FormatException, NfcTagException {
 
 		SharedPreferences settings = ctx.getSharedPreferences(
 				TagConstants.NFC4MG_PREF, 0);
@@ -203,14 +203,14 @@ public class GroupManager {
 		switch (permission) {
 		case GroupPermission.ALL_READ_WRITE:
 		case GroupPermission.GROUP_WRITE_ALL_READ:
-			return model.getData();
+			return model;
 
 		case GroupPermission.GROUP_READ_ALL_WRITE:
 		case GroupPermission.GROUP_READ_WRITE:
 
 			if (model.getId().equals(group_Id)) {
 				Log.d(TAG, "Already member of group");
-				return model.getData();
+				return model;
 
 			} else {
 				if (mGroupErrorListener != null) {
@@ -245,8 +245,7 @@ public class GroupManager {
 	 * @throws TagModelException
 	 */
 	public boolean writeDataToGroup(Context ctx, Tag tag, String data)
-			throws IOException, FormatException, TagModelException,
-			NfcTagException {
+			throws IOException, FormatException, NfcTagException {
 
 		SharedPreferences settings = ctx.getSharedPreferences(
 				TagConstants.NFC4MG_PREF, 0);
@@ -255,10 +254,14 @@ public class GroupManager {
 		// get the groupTagModel
 		GroupTagModel model = GroupTag.readTagData(tag);
 
+		if (null == model) {
+			return false;
+		}
+
 		int permission = model.getPermission();
 
 		switch (permission) {
-		
+
 		case GroupPermission.ALL_READ_WRITE:
 		case GroupPermission.GROUP_READ_ALL_WRITE:
 
@@ -308,8 +311,7 @@ public class GroupManager {
 	 * @throws NfcTagException
 	 */
 	public boolean initializeGroupTag(GroupTagModel model, Tag tag)
-			throws TagModelException, IOException, FormatException,
-			NfcTagException {
+			throws IOException, FormatException, NfcTagException {
 
 		// check for group permission
 		int permission = model.getPermission();
@@ -338,11 +340,10 @@ public class GroupManager {
 		}
 		return GroupTag.write2Tag(model, tag);
 	}
-	
-	
+
 	/**
-	 * Interface to deal with group error, developers can override this interface to
-	 * get the callback while iteracting with group tags
+	 * Interface to deal with group error, developers can override this
+	 * interface to get the callback while iteracting with group tags
 	 * 
 	 * @author shubham
 	 * 
@@ -353,5 +354,4 @@ public class GroupManager {
 
 	}
 
-	
 }
