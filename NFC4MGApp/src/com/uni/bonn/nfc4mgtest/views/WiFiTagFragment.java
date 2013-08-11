@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.uni.bonn.nfc4mg.exception.NfcTagException;
 import com.uni.bonn.nfc4mg.tagmodels.WiFiTagModel;
@@ -27,7 +28,7 @@ import com.uni.bonn.nfc4mgtest.utility.AppErrors;
 public class WiFiTagFragment extends Fragment implements OnNewIntentListener,
 		OnClickListener {
 
-	private EditText id;
+	private EditText id, ssid, password;
 	private RadioGroup action_mode;
 	private Button read, write;
 
@@ -41,7 +42,27 @@ public class WiFiTagFragment extends Fragment implements OnNewIntentListener,
 		View rootView = inflater.inflate(R.layout.wifi_tag, container, false);
 
 		id = (EditText) rootView.findViewById(R.id.id);
+		ssid = (EditText) rootView.findViewById(R.id.ssid);
+		password = (EditText) rootView.findViewById(R.id.password);
+
 		action_mode = (RadioGroup) rootView.findViewById(R.id.action_mode);
+		action_mode.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(RadioGroup arg0, int id) {
+
+				switch (id) {
+				case R.id.action3:
+					ssid.setVisibility(View.VISIBLE);
+					password.setVisibility(View.VISIBLE);
+					break;
+				default:
+					ssid.setVisibility(View.GONE);
+					password.setVisibility(View.GONE);
+					break;
+				}
+			}
+		});
 
 		read = (Button) rootView.findViewById(R.id.read);
 		write = (Button) rootView.findViewById(R.id.write);
@@ -86,6 +107,14 @@ public class WiFiTagFragment extends Fragment implements OnNewIntentListener,
 							btn = (RadioButton) action_mode.getChildAt(1);
 							btn.toggle();
 							break;
+						case WiFiActionModes.WIFI_AUTO_CONNECT:
+							btn = (RadioButton) action_mode.getChildAt(2);
+							btn.toggle();
+							ssid.setVisibility(View.VISIBLE);
+							password.setVisibility(View.VISIBLE);
+							ssid.setText(model.getSsid());
+							password.setText(model.getPassword());
+							break;
 						}
 					}
 				} else {
@@ -114,19 +143,27 @@ public class WiFiTagFragment extends Fragment implements OnNewIntentListener,
 			try {
 
 				int mode = WiFiActionModes.WIFI_ON_OFF_AUTOMATICALLY;
-
+				final String wId = id.getEditableText().toString();
+				WiFiTagModel model = null;
+				
 				switch (action_mode.getCheckedRadioButtonId()) {
 
 				case R.id.action1:
 					mode = WiFiActionModes.WIFI_ON_OFF_AUTOMATICALLY;
+					model = new WiFiTagModel(wId, mode);
 					break;
 				case R.id.action2:
 					mode = WiFiActionModes.WIFI_PAIRING_SCREEN;
+					model = new WiFiTagModel(wId, mode);
+					break;
+				case R.id.action3:
+					mode = WiFiActionModes.WIFI_AUTO_CONNECT;
+					String ssidVal = ssid.getEditableText().toString();
+					String pwdVal = password.getEditableText().toString();
+					model = new WiFiTagModel(wId, mode, ssidVal, pwdVal);
 					break;
 				}
 
-				final String wId = id.getEditableText().toString();
-				WiFiTagModel model = new WiFiTagModel(wId, mode);
 
 				if (null != mTag) {
 					if (WiFiTag.getInstance().write2Tag(model, mTag)) {

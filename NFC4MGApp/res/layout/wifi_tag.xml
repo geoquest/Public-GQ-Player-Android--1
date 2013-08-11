@@ -8,8 +8,26 @@
     <EditText
         android:id="@+id/id"
         android:layout_width="match_parent"
+        android:imeOptions="actionNext"
         android:layout_height="wrap_content"
         android:hint="@string/hint_tag_id" />
+
+    <EditText
+        android:id="@+id/ssid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionNext"
+        android:hint="@string/hint_wifi_ssid"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_wifi_password"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
+        android:visibility="gone" />
 
     <RadioGroup
         android:id="@+id/action_mode"
@@ -29,6 +47,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/wifi_screen" />
+
+        <RadioButton
+            android:id="@+id/action3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wifi_auto_connect" />
     </RadioGroup>
 
     <LinearLayout

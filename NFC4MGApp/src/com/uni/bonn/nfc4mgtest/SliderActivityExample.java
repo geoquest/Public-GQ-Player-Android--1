@@ -29,6 +29,7 @@ import com.uni.bonn.nfc4mgtest.views.InfoTagFragment;
 import com.uni.bonn.nfc4mgtest.views.ManageResourceFragment;
 import com.uni.bonn.nfc4mgtest.views.ResourceTagFragment;
 import com.uni.bonn.nfc4mgtest.views.VideoFragment;
+import com.uni.bonn.nfc4mgtest.views.WiFiAutoConnectFragment;
 import com.uni.bonn.nfc4mgtest.views.WiFiTagFragment;
 
 public class SliderActivityExample extends Activity {
@@ -213,6 +214,9 @@ public class SliderActivityExample extends Activity {
 			return;
 		case 2:
 			fragment = new VideoFragment();
+			break;
+		case 3:
+			fragment = new WiFiAutoConnectFragment();
 			break;
 		}
 		

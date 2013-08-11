@@ -108,8 +108,7 @@ public class AutoTagFragment extends Fragment implements OnNewIntentListener,
 			break;
 		case TagConstants.TAG_TYPE_WIFI:
 			// info.setText("WiFi Tag detected. Go to WiFi Tag to view tag content");
-			int mode = mTagHandler.getmWiFiTagModel().getActionMode();
-			WiFiService.handleWifiActionMode(getActivity(), mode);
+			WiFiService.handleWifiActionMode(getActivity(), mTagHandler.getmWiFiTagModel());
 			break;
 
 		default:

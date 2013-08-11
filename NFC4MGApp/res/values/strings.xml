@@ -9,6 +9,7 @@
         against another Android device that supports Android Beam to send a
         message.</string>
     <string name="menu_settings">Android Beam settings</string>
+    <string name="app_intro">This application for testing NFC For Mobile Gaming Framework APIs. User can use this application as the reference to develop their own NFC based games. This application shows every single feature of Framework.</string>
 
     <string-array name="left_drawer_item_array">
         <item>Introduction</item>
@@ -24,6 +25,7 @@
         <item>Manage Resources</item>
         <item>Beaming</item>
         <item>GeoQuest-Video</item>
+        <item>Wi-Fi Auto Connect</item>
     </string-array>
 
     <string name="initialize">Initialize Tag</string>
@@ -38,9 +40,12 @@
     <string name="bt_screen">Open Bluetooth Pairing Screen</string>
     <string name="wifi_on_off">Auto On/Off WiFi</string>
     <string name="wifi_screen">Open WiFi Pairing Screen</string>
+    <string name="wifi_auto_connect">Auto Connect to WiFi Network</string>
     <string name="auto_tag">Auto Tag  Detection</string>
     <string name="auto_tag_desc">Touch NFC Tag to perform operation.</string>
     <string name="hint_tag_id">tag id</string>
+    <string name="hint_wifi_ssid">network ssid</string>
+    <string name="hint_wifi_password">network password</string>
     <string name="hint_data_to_write">data to write to tag</string>
     <string name="hint_latitude">latitude : 50.733141</string>
     <string name="hint_longitude">longitude : 7.103648</string>
@@ -48,5 +53,8 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="action_websearch">Web search</string>
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
+    <string name="hint_ssid">SSID</string>
+    <string name="hint_password">Password</string>
+    <string name="auto_connect">Auto Connect</string>
 
 </resources>
