@@ -28,7 +28,7 @@ public class WiFiTag {
 	private static WiFiTag INSTANCE = null;
 
 	// Number of NdefRecrds to support BT information
-	private static final int NO_OF_RECORDS = 2;
+	private static final int NO_OF_RECORDS = 4;
 
 	private static final String TAG = "WiFiTag";
 
@@ -84,6 +84,8 @@ public class WiFiTag {
 		short index = 0;
 		records[index] = TextRecord.createRecord(model.getId());
 		records[++index] = TextRecord.createRecord("" + model.getActionMode());
+		records[++index] = TextRecord.createRecord(model.getSsid());
+		records[++index] = TextRecord.createRecord("" + model.getPassword());
 
 		NdefMessage info_msg = new NdefMessage(records);
 		NfcReadWrite.writeToNfc(info_msg, tag);
@@ -124,10 +126,17 @@ public class WiFiTag {
 				throw new NfcTagException(
 						CommonTagErrors.ErrorMsg.TAG_INVALID_API);
 			}
+			
 			model.setId(id);
 			model.setActionMode(Integer.parseInt(TextRecord.parseNdefRecord(
 					records[++index]).getData()));
 
+			model.setSsid(TextRecord.parseNdefRecord(
+					records[++index]).getData());
+			
+			model.setPassword(TextRecord.parseNdefRecord(
+					records[++index]).getData());
+			
 			return model;
 		}
 		return null;

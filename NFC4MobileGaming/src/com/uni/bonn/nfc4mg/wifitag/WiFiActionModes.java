@@ -7,5 +7,8 @@ public class WiFiActionModes {
 
 	// launch wifi pairing screen, so user can select device accordingly
 	public static final int WIFI_PAIRING_SCREEN = 2;
+	
+	// auto connect wifi with tap on NFC chip
+	public static final int WIFI_AUTO_CONNECT = 3;
 
 }

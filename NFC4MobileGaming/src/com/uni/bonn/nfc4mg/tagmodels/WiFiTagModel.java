@@ -22,6 +22,10 @@ public class WiFiTagModel {
 	// supporting two action modes
 	private int actionMode;
 
+	private String ssid = "";
+
+	private String password = "";
+
 	public WiFiTagModel() {
 
 	}
@@ -30,6 +34,14 @@ public class WiFiTagModel {
 		super();
 		this.id = id;
 		this.actionMode = actionMode;
+	}
+
+	public WiFiTagModel(String id, int actionMode, String ssid, String password) {
+		super();
+		this.id = id;
+		this.actionMode = actionMode;
+		this.ssid = ssid;
+		this.password = password;
 	}
 
 	public String getId() {
@@ -47,4 +59,21 @@ public class WiFiTagModel {
 	public void setActionMode(int actionMode) {
 		this.actionMode = actionMode;
 	}
+
+	public String getSsid() {
+		return ssid;
+	}
+
+	public void setSsid(String ssid) {
+		this.ssid = ssid;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 }
