@@ -1,6 +1,5 @@
 package com.uni.bonn.nfc4mg.tagmodels;
 
-import java.io.Serializable;
 
 /**
  * This class represents the model of Group. NFC Tag which is storing this

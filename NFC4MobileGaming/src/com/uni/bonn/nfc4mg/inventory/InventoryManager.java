@@ -52,6 +52,14 @@ public class InventoryManager {
 		return INSTANCE;
 	}
 
+	/**
+	 * Api to handle resource transfer via Android Beaming
+	 * @param intent
+	 * @return
+	 * @throws IOException
+	 * @throws FormatException
+	 * @throws NfcTagException
+	 */
 	public boolean handleTransferResource(Intent intent) throws IOException,
 			FormatException, NfcTagException {
 
