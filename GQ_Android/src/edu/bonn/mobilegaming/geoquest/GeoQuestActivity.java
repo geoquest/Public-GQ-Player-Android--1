@@ -31,7 +31,10 @@ public abstract class GeoQuestActivity extends Activity {
 	}
 
 	private void attachNFCEventListener() {
-		if (this instanceof NeedsNFCCapability && null != mNFCEventManager) {
+		/*if (this instanceof NeedsNFCCapability && null != mNFCEventManager) {
+			mNFCEventManager.attachNFCListener(GeoQuestActivity.this);
+		}*/
+		if (null != mNFCEventManager) {
 			mNFCEventManager.attachNFCListener(GeoQuestActivity.this);
 		}
 	}
@@ -43,7 +46,10 @@ public abstract class GeoQuestActivity extends Activity {
 	}
 
 	private void detachNFCEventListener() {
-		if (this instanceof NeedsNFCCapability && null != mNFCEventManager) {
+		/*if (this instanceof NeedsNFCCapability && null != mNFCEventManager) {
+			mNFCEventManager.removeNFCListener(GeoQuestActivity.this);
+		}*/
+		if (null != mNFCEventManager) {
 			mNFCEventManager.removeNFCListener(GeoQuestActivity.this);
 		}
 	}
@@ -62,10 +68,11 @@ public abstract class GeoQuestActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		checkAndInitializeNFCEventManager();
 
 		((GeoQuestApp) getApplication()).addActivity(this);
 
+		checkAndInitializeNFCEventManager();
+		
 		// Init progress dialogs:
 		downloadAndStartGameDialog = new ProgressDialog(this);
 		downloadAndStartGameDialog
@@ -80,14 +87,21 @@ public abstract class GeoQuestActivity extends Activity {
 	}
 
 	private void checkAndInitializeNFCEventManager() {
-		if (this instanceof NeedsNFCCapability) {
+		/*if (this instanceof NeedsNFCCapability) {
 			try {
-				mNFCEventManager = new NFCEventManager(this);
+				mNFCEventManager = NFCEventManager.getInstance(this);
 				mNFCEventManager.initialize(this, GeoQuestActivity.this);
 			} catch (Exception e) {
 				e.printStackTrace();
 				Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
 			}
+		}*/
+		try {
+			mNFCEventManager = NFCEventManager.getInstance(this);
+			mNFCEventManager.initialize(this, GeoQuestActivity.this);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
 	}
 

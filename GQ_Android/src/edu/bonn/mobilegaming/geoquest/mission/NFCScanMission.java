@@ -14,10 +14,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.uni.bonn.nfc4mg.NFCEventManager;
 import com.uni.bonn.nfc4mg.constants.TagConstants;
 import com.uni.bonn.nfc4mg.exception.NfcTagException;
-import com.uni.bonn.nfc4mg.exception.TagModelException;
 import com.uni.bonn.nfc4mg.nfctag.ParseTagListener;
 import com.uni.bonn.nfc4mg.nfctag.TagHandler;
 import com.uni.bonn.nfc4mg.tagmodels.GPSTagModel;
@@ -35,7 +33,8 @@ public class NFCScanMission extends InteractiveMission implements
 
 	private static final String TAG = "NFCScanMission";
 	private Context ctx;
-	private NFCEventManager mNFCEventManager = null;
+	
+	//private NFCEventManager mNFCEventManager = null;
 
 	// Global Tag reference
 	private Tag mTag = null;
@@ -66,13 +65,13 @@ public class NFCScanMission extends InteractiveMission implements
 		Log.d(TAG, "Inside NFCScanMission");
 
 		this.ctx = this;
-		try {
-			mNFCEventManager = new NFCEventManager(this.ctx);
+		/*try {
+			mNFCEventManager = NFCEventManager.getInstance(this.ctx);
 			mNFCEventManager.initialize(this.ctx, NFCScanMission.this);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Toast.makeText(this.ctx, e.getMessage(), Toast.LENGTH_SHORT).show();
-		}
+		}*/
 
 		List<Element> nfctouch = mission.xmlMissionNode
 				.selectNodes("./nfctouch");
@@ -95,7 +94,7 @@ public class NFCScanMission extends InteractiveMission implements
 		ui = UIFactory.getInstance().createUI(this);
 		ui.init();
 		try {
-			mHandler = new TagHandler(this);
+			mHandler = new TagHandler(this.ctx, this);
 		} catch (NfcTagException e) {
 			e.printStackTrace();
 			Toast.makeText(this.ctx, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -134,7 +133,7 @@ public class NFCScanMission extends InteractiveMission implements
 		finish(Globals.STATUS_SUCCEEDED);
 	}
 
-	@Override
+	/*@Override
 	public void onPause() {
 		super.onPause();
 		if (null != mNFCEventManager) {
@@ -149,7 +148,7 @@ public class NFCScanMission extends InteractiveMission implements
 			mNFCEventManager.attachNFCListener(NFCScanMission.this);
 		}
 	}
-
+*/
 	@Override
 	protected void onNewIntent(Intent intent) {
 
@@ -162,8 +161,6 @@ public class NFCScanMission extends InteractiveMission implements
 				try {
 					Log.d(TAG, "processing Intent");
 					mHandler.processIntent(intent);
-
-				} catch (TagModelException e) {
 
 				} catch (IOException e) {
 

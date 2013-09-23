@@ -25,7 +25,6 @@ public class NFCMission extends InteractiveMission implements
 
 	private static final String TAG = "NFCMission";
 	private Context ctx;
-	// private NFCEventManager mNFCEventManager = null;
 
 	// Global Tag reference
 	private Tag mTag = null;
@@ -41,12 +40,6 @@ public class NFCMission extends InteractiveMission implements
 		Log.d(TAG, "Inside NFCMission");
 
 		this.ctx = this;
-		/*
-		 * try { mNFCEventManager = new NFCEventManager(this.ctx);
-		 * mNFCEventManager.initialize(this.ctx, NFCMission.this); } catch
-		 * (Exception e) { e.printStackTrace(); Toast.makeText(this.ctx,
-		 * e.getMessage(), Toast.LENGTH_SHORT).show(); }
-		 */
 
 		List<Element> initialize = mission.xmlMissionNode
 				.selectNodes("./initialize");
@@ -72,6 +65,7 @@ public class NFCMission extends InteractiveMission implements
 	 *         show.
 	 */
 	public boolean hasMoreDialogItems() {
+		
 		return initTagItemIterator.hasNext();
 	}
 
@@ -79,17 +73,7 @@ public class NFCMission extends InteractiveMission implements
 		return initTagItemIterator.next();
 	}
 
-	/*
-	 * @Override public void onPause() { super.onPause(); if (null !=
-	 * mNFCEventManager) { mNFCEventManager.removeNFCListener(NFCMission.this);
-	 * } }
-	 */
-
-	/*
-	 * @Override public void onResume() { super.onResume(); if (null !=
-	 * mNFCEventManager) { mNFCEventManager.attachNFCListener(NFCMission.this);
-	 * } }
-	 */
+	
 
 	@Override
 	protected void onNewIntent(Intent intent) {
