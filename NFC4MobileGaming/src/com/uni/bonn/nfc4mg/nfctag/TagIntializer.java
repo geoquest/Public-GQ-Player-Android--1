@@ -98,14 +98,12 @@ public class TagIntializer {
 			tagType = TagConstants.TAG_TYPE_INFO;
 
 			String id = xmlElement.attributeValue("id");
-			String mime = xmlElement.attributeValue("mime");
 			String data = xmlElement.attributeValue("data");
 
 			Log.v(TAG, "id = " + id);
-			Log.v(TAG, "mime = " + mime);
 			Log.v(TAG, "data = " + data);
 
-			mInfoTagModel = new InfoTagModel(id, mime, data);
+			mInfoTagModel = new InfoTagModel(id, data);
 
 		} else if ("gps".equals(type)) {
 
@@ -114,7 +112,7 @@ public class TagIntializer {
 			String latitude = xmlElement.attributeValue("latitude");
 			String longitude = xmlElement.attributeValue("longitude");
 			String data = xmlElement.attributeValue("data");
-			mGPSTagModel = new GPSTagModel(id, latitude, longitude,data);
+			mGPSTagModel = new GPSTagModel(id, latitude, longitude, data);
 		}
 
 		mParseListener.onParseComplete(tagType);
@@ -122,6 +120,7 @@ public class TagIntializer {
 
 	/**
 	 * APIs to check connection with NFC Tag is still live or not
+	 * 
 	 * @param tag
 	 * @return
 	 */

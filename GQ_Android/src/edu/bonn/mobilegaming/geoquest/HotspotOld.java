@@ -45,6 +45,99 @@ public class HotspotOld /* extends Overlay */{
 	public static Set<Entry<String, HotspotOld>> getAllHotspots() {
 		return allHotspots.entrySet();
 	}
+<<<<<<< HEAD
+	HotspotOld h = allHotspots.get(_id);
+
+	Log.d(h.getClass().getName(),
+	      "initiating hotspot. id="
+		      + _id);
+
+	h.init(_parent,
+	       _hotspotNode);
+
+	return (h);
+    }
+
+    private HotspotOld(String _id) {
+	Log.d(getClass().getName(),
+	      "constructing hotspot. id="
+		      + _id);
+	id = _id;
+	googleOverlay = new Overlay() {
+
+	    @Override
+	    public void draw(Canvas canvas,
+			     MapView view,
+			     boolean shadow) {
+		if (!HotspotOld.this.visible)
+		    return; // If it is invisible there is not really much to
+			    // draw...
+		Projection projection = view.getProjection();
+		Point screenPoint = new Point();
+		projection.toPixels(geoPoint,
+				    screenPoint);
+
+		// draw Bitmap
+		canvas.drawBitmap(bitmap,
+				  screenPoint.x
+					  - HotspotOld.this.halfBitmapWidth,
+				  screenPoint.y
+					  - HotspotOld.this.halfBitmapHeight,
+				  null);
+
+		// draw interaction circle
+		if (drawCircle) {
+		    // TODO verify that this works
+		    float mPixRadius = (float) (view.getProjection()
+			    .metersToEquatorPixels(radius) * (1 / Math.cos(Math
+			    .toRadians(geoPoint.getLatitudeE6() / 1E6))));
+		    canvas.drawCircle(screenPoint.x,
+				      screenPoint.y,
+				      mPixRadius,
+				      paint);
+		}
+	    }
+
+	    /**
+	     * tap handler. Tests if the current hotspots is tapped and if so
+	     * starts the a new mission.
+	     */
+	    @Override
+	    public boolean onTap(GeoPoint point,
+				 MapView mapView) {
+
+		// hit test
+		Projection projection = mapView.getProjection();
+		Point screenPoint = new Point();
+		projection.toPixels(geoPoint,
+				    screenPoint);
+
+		RectF hitTestRect = new RectF();
+		hitTestRect.set(-bitmap.getWidth() / 2,
+				-bitmap.getHeight() / 2,
+				bitmap.getWidth() / 2,
+				bitmap.getHeight() / 2);
+
+		hitTestRect.offset(screenPoint.x,
+				   screenPoint.y);
+
+		projection.toPixels(point,
+				    screenPoint);
+		if (hitTestRect.contains(screenPoint.x,
+					 screenPoint.y)) {
+
+		    if (!isInRange)
+			drawCircle = !drawCircle;
+		    else {
+		    }
+
+		    // start the event
+		    Log.d("",
+			  "a");
+		    runOnTapEvent();
+
+		    return true;
+=======
 
 	/**
 	 * @param id
@@ -70,6 +163,7 @@ public class HotspotOld /* extends Overlay */{
 		String _id = _hotspotNode.selectSingleNode("@id").getText();
 		if (!allHotspots.containsKey(_id)) {
 			new HotspotOld(_id);
+>>>>>>> refs/remotes/origin/master
 		}
 		HotspotOld h = allHotspots.get(_id);
 
@@ -466,6 +560,45 @@ public class HotspotOld /* extends Overlay */{
 		}
 
 	}
+<<<<<<< HEAD
+    }
+
+    /**
+     * Inits some basic parameters
+     * 
+     * @param location
+     * @param drawableID
+     * @param parentMission
+     * @param radius
+     * @param startMissionID
+     * @param invisible
+     * @param id
+     * @throws IllegalHotspotNodeException
+     */
+    private void init(Mission _parent,
+		      Element _hotspotNode) throws IllegalHotspotNodeException {
+	double latitude, longitude;
+	// first look for 'latlong' abbreviating attribute:
+	String latLongString = _hotspotNode.attributeValue("latlong");
+	if (latLongString != null) {
+	    latitude = Double.valueOf(latLongString.split(",")[0]) * 1E6;
+	    longitude = Double.valueOf(latLongString.split(",")[1]) * 1E6;
+	} else {
+	    // latitude & longitude attribute
+	    Attribute latitudeA = (Attribute) _hotspotNode
+		    .selectSingleNode("@latitude");
+	    Attribute longitudeA = (Attribute) _hotspotNode
+		    .selectSingleNode("@longitude");
+
+	    if ((latitudeA == null)
+		    || (longitudeA == null))
+		throw new IllegalHotspotNodeException(
+			"Latitude or Longitude is not set.\n"
+				+ _hotspotNode);
+	    latitude = Double.valueOf(latitudeA.getText()) * 1E6;
+	    longitude = Double.valueOf(longitudeA.getText()) * 1E6;
+=======
+>>>>>>> refs/remotes/origin/master
 
 	/**
 	 * adds a new hotspot listener. The listener is informed when the player
@@ -477,6 +610,23 @@ public class HotspotOld /* extends Overlay */{
 	public void addHotspotListener(HotspotListener h) {
 		listener.add(h);
 	}
+<<<<<<< HEAD
+	GeoPoint point = new GeoPoint((int) (latitude), (int) (longitude));
+	Variables.setValue(Variables.HOTSPOT_PREFIX
+				   + id
+				   + Variables.LOCATION_SUFFIX,
+			   point);
+
+	// image
+	String imgsrc = _hotspotNode.attributeValue("img");
+	if (imgsrc != null) {
+	    setBitmap(BitmapUtil.loadBitmap(imgsrc,
+					    false));
+	} else {
+	    setBitmap(((BitmapDrawable) GeoQuestApp.getInstance()
+		    .getResources()
+		    .getDrawable(R.drawable.default_hotspot_icon)).getBitmap());
+=======
 
 	/**
 	 * removed a listener
@@ -486,6 +636,7 @@ public class HotspotOld /* extends Overlay */{
 	 */
 	public void removeHotspotListener(HotspotListener h) {
 		listener.remove(h);
+>>>>>>> refs/remotes/origin/master
 	}
 
 	public void setBitmap(Bitmap bitmap) {

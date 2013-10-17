@@ -17,7 +17,7 @@ import com.uni.bonn.nfc4mg.exception.NfcTagException;
  * @author shubham
  * 
  */
-public final class NfcReadWrite {
+public class NfcReadWrite {
 
 	// Supported TAG Technology. In case of other tag technology Exception will
 	// be thrown.

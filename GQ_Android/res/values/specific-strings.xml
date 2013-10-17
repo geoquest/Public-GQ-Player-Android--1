@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+<<<<<<< HEAD
     <string name="app_name">Großvater Enkel App</string>
     <string name="imprint_authorName">HIDDEN</string>
     <string name="imprint_legalForm">HIDDEN</string>
@@ -13,5 +14,19 @@
     <string name="imprint_registeredOffice">HIDDEN</string>
     <string name="imprint_registrationNumber">HIDDEN</string>
     <string name="imprint_vatIdNr">HIDDEN</string>
+=======
+    <string name="app_name">GeoQuest</string>
+    <string name="imprint_authorName">Erzbistum Köln - Familien Pastoral</string>
+    <string name="imprint_legalForm">Kirche</string>
+    <string name="imprint_streetAndNr">Erzbistum Köln - Familien Pastoral</string>
+    <string name="imprint_postalCode">Erzbistum Köln - Familien Pastoral</string>
+    <string name="imprint_city">Erzbistum Köln - Familien Pastoral</string>
+    <string name="imprint_email">Erzbistum Köln - Familien Pastoral</string>
+    <string name="imprint_phone">Erzbistum Köln - Familien Pastoral</string>
+    <string name="imprint_fax">Erzbistum Köln - Familien Pastoral</string>
+    <string name="imprint_registeredOffice">Erzbistum Köln - Familien Pastoral</string>
+    <string name="imprint_registrationNumber">Erzbistum Köln - Familien Pastoral</string>
+    <string name="imprint_vatIdNr">Erzbistum Köln - Familien Pastoral</string>
+>>>>>>> refs/remotes/origin/master
 
 </resources>

@@ -9,49 +9,46 @@
         android:id="@+id/id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="tag id" />
+        android:hint="@string/hint_tag_id" />
 
-    <EditText
-        android:id="@+id/macId"
-        android:layout_width="match_parent"
+    <RadioGroup
+        android:id="@+id/action_mode"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="MAC ID" />
-
-    <EditText
-        android:id="@+id/passKey"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="0000"
         android:layout_marginTop="20dp" >
-    </EditText>
+
+        <RadioButton
+            android:id="@+id/action1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/bt_on_off" />
+
+        <RadioButton
+            android:id="@+id/action2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bt_screen" />
+    </RadioGroup>
 
     <LinearLayout
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:gravity="center"
-        android:orientation="horizontal" >
+        android:orientation="vertical" >
 
         <Button
             android:id="@+id/read"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Read" />
+            android:text="@string/read" />
 
         <Button
             android:id="@+id/write"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Write" />
+            android:text="@string/write" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/nfcStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </LinearLayout>

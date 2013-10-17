@@ -16,9 +16,8 @@ import android.widget.Toast;
 
 import com.uni.bonn.nfc4mg.constants.TagConstants;
 import com.uni.bonn.nfc4mg.exception.NfcTagException;
-import com.uni.bonn.nfc4mg.exception.TagModelException;
-import com.uni.bonn.nfc4mg.nfctag.GpsTag;
-import com.uni.bonn.nfc4mg.nfctag.InfoTag;
+import com.uni.bonn.nfc4mg.gpstag.GpsTag;
+import com.uni.bonn.nfc4mg.infotag.InfoTag;
 import com.uni.bonn.nfc4mg.nfctag.ParseTagListener;
 import com.uni.bonn.nfc4mg.nfctag.TagIntializer;
 import com.uni.bonn.nfc4mg.tagmodels.GPSTagModel;
@@ -45,6 +44,8 @@ public class NFCMissionUIDefault extends NFCMissionUI {
 	private GPSTagModel gpsModel = null;
 	private InfoTagModel infoModel = null;
 
+	private Element mElement;
+	
 	private int mode = 0;
 	private static final int MODE_NEXT_DIALOG_ITEM = 1;
 	private static final int MODE_END = 2;
@@ -80,8 +81,7 @@ public class NFCMissionUIDefault extends NFCMissionUI {
 
 				infoModel = tInitializer.getmInfoTagModel();
 
-				String data = "Id : " + infoModel.getId() + "\n" + "MIME : "
-						+ infoModel.getMime() + "\n" + "Data : "
+				String data = "Id : " + infoModel.getId() + "\n" + "Data : "
 						+ infoModel.getData();
 
 				preTagWriteView(
@@ -122,7 +122,8 @@ public class NFCMissionUIDefault extends NFCMissionUI {
 
 		mTag = tag;
 		refreshButton();
-		tInitializer.initializeFromXML(getNFCMission().getNextItem());
+		//tInitializer.initializeFromXML(getNFCMission().getNextItem());
+		tInitializer.initializeFromXML(mElement);
 	}
 
 	public void showNextDialogItem() {
@@ -131,16 +132,15 @@ public class NFCMissionUIDefault extends NFCMissionUI {
 
 			if (null != gpsModel) {
 				try {
-					GpsTag gtag = new GpsTag();
+					GpsTag gtag = GpsTag.getInstance();
 					gtag.write2Tag(gpsModel, mTag);
 					gpsModel = null;
+					mElement = getNFCMission().getNextItem();
+					String title = mElement.attributeValue("title");
 					preTagWriteView(
-							"",
-							"Tag is successfully initialized...Scan another Tag",
+							title,
+							"Tag is successfully initialized. Scan another Tag",
 							false);
-				} catch (TagModelException e) {
-					error(e.getMessage());
-					e.printStackTrace();
 				} catch (IOException e) {
 					error("Connection to Tag is lost.");
 					e.printStackTrace();
@@ -153,16 +153,15 @@ public class NFCMissionUIDefault extends NFCMissionUI {
 				}
 			} else if (null != infoModel) {
 				try {
-					InfoTag tag = new InfoTag();
+					InfoTag tag = InfoTag.getInstance();
 					tag.write2Tag(infoModel, mTag);
 					infoModel = null;
+					mElement = getNFCMission().getNextItem();
+					String title = mElement.attributeValue("title");
 					preTagWriteView(
-							"",
-							"Tag is successfully initialized...Scan another Tag",
+							title,
+							"Tag is successfully initialized. Scan another Tag",
 							false);
-				} catch (TagModelException e) {
-					error(e.getMessage());
-					e.printStackTrace();
 				} catch (IOException e) {
 					error("Connection to Tag is lost.");
 					e.printStackTrace();
@@ -175,7 +174,7 @@ public class NFCMissionUIDefault extends NFCMissionUI {
 				}
 			}
 		} else {
-			preTagWriteView("", "Tag Lost! Please touch the Tag again...",
+			preTagWriteView("", "Tag Lost! Please touch the Tag again.",
 					false);
 		}
 		refreshButton();
@@ -199,7 +198,9 @@ public class NFCMissionUIDefault extends NFCMissionUI {
 		info = (TextView) view.findViewById(R.id.info);
 		nfcConnStatus = (TextView) view.findViewById(R.id.nfcConnStatus);
 		button = (Button) view.findViewById(R.id.write);
-		preTagWriteView("", "Touch NFC Tag to begin...", false);
+		mElement = getNFCMission().getNextItem();
+		String title = mElement.attributeValue("title");
+		preTagWriteView(title, "Touch NFC Tag to begin...", false);
 		return view;
 	}
 

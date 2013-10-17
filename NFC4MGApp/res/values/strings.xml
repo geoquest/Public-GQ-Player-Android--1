@@ -1,8 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">NFC4MGTest</string>
+    <string name="app_name">NFC4MGApp</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="info">Ensure that Android Beam is enabled by turning it on in
+        the system Settings (select the setting icon above), then place this device up
+        against another Android device that supports Android Beam to send a
+        message.</string>
+    <string name="menu_settings">Android Beam settings</string>
+    <string name="app_intro">This application for testing NFC For Mobile Gaming Framework APIs. User can use this application as the reference to develop their own NFC based games. This application shows every single feature of Framework.</string>
+
+    <string-array name="left_drawer_item_array">
+        <item>Introduction</item>
+        <item>Info Tag</item>
+        <item>GPS Tag</item>
+        <item>Group Tag</item>
+        <item>Resource Tag</item>
+        <item>Bluetooth Tag</item>
+        <item>WiFi Tag</item>
+        <item>Auto Tag Detection</item>
+    </string-array>
+    <string-array name="right_drawer_item_array">
+        <item>Manage Resources</item>
+        <item>Beaming</item>
+        <item>GeoQuest-Video</item>
+        <item>Wi-Fi Auto Connect</item>
+    </string-array>
+
+    <string name="initialize">Initialize Tag</string>
+    <string name="add_res">Add Resource</string>
+    <string name="read">Read</string>
+    <string name="write">Write</string>
+    <string name="join_group">Join Group</string>
+    <string name="leave_group">Leave Group</string>
+    <string name="res_name">Resource Name</string>
+    <string name="res_count">No. of resources</string>
+    <string name="bt_on_off">Auto On/Off Bluetooth</string>
+    <string name="bt_screen">Open Bluetooth Pairing Screen</string>
+    <string name="wifi_on_off">Auto On/Off WiFi</string>
+    <string name="wifi_screen">Open WiFi Pairing Screen</string>
+    <string name="wifi_auto_connect">Auto Connect to WiFi Network</string>
+    <string name="auto_tag">Auto Tag  Detection</string>
+    <string name="auto_tag_desc">Touch NFC Tag to perform operation.</string>
+    <string name="hint_tag_id">tag id</string>
+    <string name="hint_wifi_ssid">network ssid</string>
+    <string name="hint_wifi_password">network password</string>
+    <string name="hint_data_to_write">data to write to tag</string>
+    <string name="hint_latitude">latitude : 50.733141</string>
+    <string name="hint_longitude">longitude : 7.103648</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="action_websearch">Web search</string>
+    <string name="app_not_available">Sorry, there\'s no web browser available</string>
+    <string name="hint_ssid">SSID</string>
+    <string name="hint_password">Password</string>
+    <string name="auto_connect">Auto Connect</string>
 
 </resources>
