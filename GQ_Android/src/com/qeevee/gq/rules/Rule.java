@@ -23,26 +23,23 @@ import com.qeevee.gq.rules.cond.True;
  */
 public class Rule {
 
+	private static boolean ruleFired;
 	private Condition precondition;
 	private List<Action> actions;
-
-	public Rule(Condition cond, List<Action> actions) {
-		precondition = cond;
-		this.actions = new ArrayList<Action>(actions);
-	}
 
 	/**
 	 * Checks the precondition of this rule and if it is fulfilled executes the
 	 * actions in the order defined by the according rule xml element.
 	 * 
 	 * @return wheather the condition is fulfilled and the action list is not
-	 *         empty, i.e. wheather actions are executed.
+	 *         empty, i.e. whether actions are executed.
 	 */
 	public final boolean apply() {
 		if (precondition.isFulfilled()) {
 			for (Action currentAction : actions) {
 				currentAction.execute();
 			}
+			Rule.ruleFired = true;
 			return true;
 		} else
 			return false;
@@ -85,6 +82,7 @@ public class Rule {
 	 * @param xmlRuleContent
 	 *            the content of the xml element {@code<rule>} which typically
 	 *            is {@code<if>...</if><then>...</then>}.
+	 * @param id
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -107,7 +105,7 @@ public class Rule {
 			 */
 			rule.precondition = ConditionFactory.create(xmlCondition);
 		}
-		
+
 		rule.addActionsToList(xmlRuleContent.selectNodes("action"));
 
 		return rule;
@@ -117,6 +115,14 @@ public class Rule {
 		for (Element xmlAction : xmlActionNodes) {
 			actions.add(ActionFactory.create(xmlAction));
 		}
+	}
+
+	public static void resetRuleFiredTracker() {
+		Rule.ruleFired = false;
+	}
+
+	public static boolean getRuleFiredTracker() {
+		return Rule.ruleFired;
 	}
 
 }

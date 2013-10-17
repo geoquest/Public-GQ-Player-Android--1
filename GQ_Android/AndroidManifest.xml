@@ -18,13 +18,13 @@
     <uses-permission android:name="android.permission.NFC" />
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="9"
         android:targetSdkVersion="9" />
 
     <application
         android:name="GeoQuestApp"
         android:allowBackup="true"
-        android:icon="@drawable/bibelwegapplogo"
+        android:icon="@drawable/appicon"
         android:label="Bibelweg Köln" >
         <uses-library android:name="com.google.android.maps" />
 
@@ -40,75 +40,75 @@
         </activity>
         <activity
             android:name=".GameListActivity"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".RepoListActivity"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.qeevee.gq.history.HistoryActivity"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.qeevee.ui.FullScreenImage"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="sensor" />
         <activity
             android:name=".mission.StartAndExitScreen"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mission.MapOverview"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mission.OSMap"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mission.NPCTalk"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mission.WebPage"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="sensor" />
         <activity
             android:name=".mission.WebTech"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="sensor" />
         <activity
             android:name=".mission.QRTagReadingProduct"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mission.QRTagReadingTreasure"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mission.ImageCapture"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mission.AudioRecord"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mission.VideoPlay"
-            android:label="@string/erzbistum"
-            android:screenOrientation="sensor" />
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".mission.QuestionAndAnswer"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mission.MultipleChoiceQuestion"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mission.TextQuestion"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
             android:name="Preferences"
@@ -117,16 +117,26 @@
         </activity>
         <activity
             android:name=".mission.Info"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="landscape" />
         <activity
             android:name=".mission.ExternalMission"
-            android:label="@string/erzbistum"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="edu.bonn.mobilegaming.geoquest.mission.NFCTag"
-            android:label="@string/erzbistum"
+            android:name=".mission.NFCMission"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".mission.NFCScanMission"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        
+        <activity
+            android:name=".mission.NFCTagReadingProduct"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        
     </application>
 
 </manifest>

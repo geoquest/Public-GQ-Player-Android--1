@@ -4,7 +4,9 @@ import edu.bonn.mobilegaming.geoquest.mission.AudioRecord;
 import edu.bonn.mobilegaming.geoquest.mission.ExternalMission;
 import edu.bonn.mobilegaming.geoquest.mission.ImageCapture;
 import edu.bonn.mobilegaming.geoquest.mission.MultipleChoiceQuestion;
-import edu.bonn.mobilegaming.geoquest.mission.NFCTag;
+import edu.bonn.mobilegaming.geoquest.mission.NFCMission;
+import edu.bonn.mobilegaming.geoquest.mission.NFCScanMission;
+import edu.bonn.mobilegaming.geoquest.mission.NFCTagReadingProduct;
 import edu.bonn.mobilegaming.geoquest.mission.NPCTalk;
 import edu.bonn.mobilegaming.geoquest.mission.QRTagReadingProduct;
 import edu.bonn.mobilegaming.geoquest.mission.QRTagReadingTreasure;
@@ -17,7 +19,9 @@ import edu.bonn.mobilegaming.geoquest.ui.abstrakt.AudioRecordUI;
 import edu.bonn.mobilegaming.geoquest.ui.abstrakt.ExternalMissionUI;
 import edu.bonn.mobilegaming.geoquest.ui.abstrakt.ImageCaptureUI;
 import edu.bonn.mobilegaming.geoquest.ui.abstrakt.MultipleChoiceQuestionUI;
-import edu.bonn.mobilegaming.geoquest.ui.abstrakt.NFCTagUI;
+import edu.bonn.mobilegaming.geoquest.ui.abstrakt.NFCMissionUI;
+import edu.bonn.mobilegaming.geoquest.ui.abstrakt.NFCScanMissionUI;
+import edu.bonn.mobilegaming.geoquest.ui.abstrakt.NFCTagReadingProductUI;
 import edu.bonn.mobilegaming.geoquest.ui.abstrakt.NPCTalkUI;
 import edu.bonn.mobilegaming.geoquest.ui.abstrakt.QRTagReadingProductUI;
 import edu.bonn.mobilegaming.geoquest.ui.abstrakt.QRTagReadingTreasureUI;
@@ -30,60 +34,71 @@ import edu.bonn.mobilegaming.geoquest.ui.abstrakt.WebTechUI;
 
 public class DefaultUIFactory extends UIFactory {
 
-    public DefaultUIFactory() {
-	super();
-    }
+	public DefaultUIFactory() {
+		super();
+	}
 
-    public NFCTagUI createUI(NFCTag activity) {
-	return new NFCTagUIDefault(activity);
-    }
+	
+	public NFCTagReadingProductUI createUI(NFCTagReadingProduct activity) {
+		return new NFCTagReadingProductUIDefault(activity);
+	}
+	
+	public NFCScanMissionUI createUI(NFCScanMission activity) {
+		return new NFCScanMissionUIDefault(activity);
+	}
 
-    public NPCTalkUI createUI(NPCTalk activity) {
-	return new NPCTalkUIDefault(activity);
-    }
+	public NFCMissionUI createUI(NFCMission activity) {
+		return new NFCMissionUIDefault(activity);
+	}
 
-    public ImageCaptureUI createUI(ImageCapture activity) {
-	return new ImageCaptureUIDefault(activity);
-    }
+	public NPCTalkUI createUI(NPCTalk activity) {
+		return new NPCTalkUIDefault(activity);
+	}
 
-    public ExternalMissionUI createUI(ExternalMission activity) {
-	return new ExternalMissionUIDefault(activity);
-    }
+	public ImageCaptureUI createUI(ImageCapture activity) {
+		return new ImageCaptureUIDefault(activity);
+	}
 
-    public MultipleChoiceQuestionUI createUI(MultipleChoiceQuestion activity) {
-	return new MultipleChoiceQuestionDefault(activity);
-    }
+	public ExternalMissionUI createUI(ExternalMission activity) {
+		return new ExternalMissionUIDefault(activity);
+	}
 
-    public TextQuestionUI createUI(TextQuestion activity) {
-	return new TextQuestionDefault(activity);
-    }
+	public TextQuestionUI createUI(TextQuestion activity) {
+		return new TextQuestionDefault(activity);
+	}
 
-    public WebTechUI createUI(WebTech activity) {
-	return new WebTechUIDefault(activity);
-    }
+	public WebTechUI createUI(WebTech activity) {
+		return new WebTechUIDefault(activity);
+	}
 
-    public AudioRecordUI createUI(AudioRecord activity) {
-	return new AudioRecordUIDefault(activity);
-    }
+	public AudioRecordUI createUI(AudioRecord activity) {
+		return new AudioRecordUIDefault(activity);
+	}
 
-    public VideoPlayUI createUI(VideoPlay activity) {
-	return new VideoPlayUIDefault(activity);
-    }
+	public VideoPlayUI createUI(VideoPlay activity) {
+		return new VideoPlayUIDefault(activity);
+	}
 
-    public WebPageUI createUI(WebPage activity) {
-	return new WebPageUIDefault(activity);
-    }
+	public WebPageUI createUI(WebPage activity) {
+		return new WebPageUIDefault(activity);
+	}
 
-    public StartAndExitScreenUI createUI(StartAndExitScreen activity) {
-	return new StartAndExitScreenUIDefault(activity);
-    }
+	public StartAndExitScreenUI createUI(StartAndExitScreen activity) {
+		return new StartAndExitScreenUIDefault(activity);
+	}
 
-    public QRTagReadingTreasureUI createUI(QRTagReadingTreasure activity) {
-	return new QRTagReadingTreasureUIDefault(activity);
-    }
+	public QRTagReadingTreasureUI createUI(QRTagReadingTreasure activity) {
+		return new QRTagReadingTreasureUIDefault(activity);
+	}
 
-    public QRTagReadingProductUI createUI(QRTagReadingProduct activity) {
-	return new QRTagReadingProductUIDefault(activity);
-    }
+	public QRTagReadingProductUI createUI(QRTagReadingProduct activity) {
+		return new QRTagReadingProductUIDefault(activity);
+	}
+
+	@Override
+	public MultipleChoiceQuestionUI createUI(MultipleChoiceQuestion activity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
